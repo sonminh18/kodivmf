@@ -128,7 +128,6 @@ class PreloadManager:
         log("Starting preload worker")
         
         # Add delay to avoid competing with main startup (improved performance)
-        import time
         time.sleep(5)  # Wait 5 seconds before starting preload to let main UI load first
         log("Preload delay completed, starting actual preload")
 

@@ -37,10 +37,8 @@ jobs:
         
     - name: Create addon zip
       run: |
-        # Create addon zip file
-        cd plugin.video.vietmediaF
-        zip -r ../plugin.video.vietmediaF-${{ steps.addon_version.outputs.version }}.zip . -x "*.git*" "*.DS_Store*" "__pycache__/*" "*.pyc"
-        cd ..
+        # Create addon zip file with proper folder structure (folder must be at top level)
+        zip -r plugin.video.vietmediaF-${{ steps.addon_version.outputs.version }}.zip plugin.video.vietmediaF -x "*.git*" "*.DS_Store*" "*/__pycache__/*" "*.pyc"
         
         # Also create a zip without version for latest download
         cp plugin.video.vietmediaF-${{ steps.addon_version.outputs.version }}.zip plugin.video.vietmediaF.zip

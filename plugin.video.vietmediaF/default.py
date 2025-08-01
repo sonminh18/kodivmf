@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import threading
+import datetime
+import time
 import urlquick
 import getlink, loadlistitem
 import xbmcplugin
@@ -1521,7 +1524,6 @@ def parse_menu_data(data):
 
 def getMenu():
     """Load menu with optimized caching and timeout for better performance"""
-    from resources.utils import should_skip_network_call, record_network_failure, record_network_success
     
     url = 'https://docs.google.com/spreadsheets/d/1aH1WIITSsVKDSCgbKKvRCTPccfkOEkpWuYAcEEVlyjI/gviz/tq?gid=0&headers=1'
     url_key = "main_menu"
@@ -1578,7 +1580,6 @@ def get_fallback_menu():
 
 def getFshareMenu():
     """Load Fshare menu with optimized performance settings"""
-    from resources.utils import should_skip_network_call, record_network_failure, record_network_success
     
     url = 'https://docs.google.com/spreadsheets/d/1utbPZh4jNvm1U2xdrnWJpnq6RRZAnGNlmaNRCnjwKus/gviz/tq?gid=173971263&headers=1'
     url_key = "fshare_menu"
@@ -2627,7 +2628,6 @@ def should_run_background_cache_cleanup():
         if not last_cleanup:
             return True
         
-        import datetime
         last_time = datetime.datetime.strptime(last_cleanup, '%Y-%m-%d')
         now = datetime.datetime.now()
         # Only run once per day instead of every startup
@@ -2638,7 +2638,6 @@ def should_run_background_cache_cleanup():
 def background_cache_cleanup():
     """Run cache cleanup in background thread"""
     try:
-        import time
         # Small delay to ensure main UI loads first
         time.sleep(2)
         
@@ -2646,7 +2645,6 @@ def background_cache_cleanup():
         check_and_clear_cache()
         
         # Update last cleanup time
-        import datetime
         ADDON.setSetting('last_background_cleanup', datetime.datetime.now().strftime('%Y-%m-%d'))
         
         xbmc.log("[VietmediaF] Background cache cleanup completed", xbmc.LOGINFO)
@@ -2658,11 +2656,10 @@ def main():
     # check_and_clear_cache()  # Now runs in background thread
     
     # Start background cache cleanup if needed
-    import threading
     if should_run_background_cache_cleanup():
         threading.Thread(target=background_cache_cleanup, daemon=True).start()
 
-    args = urllib.parse.parse_qs(sys.argv[2][1:])
+    args = urllib_parse.parse_qs(sys.argv[2][1:])
     action = args.get('action', None)
     url = args.get('url', [''])[0]
 
