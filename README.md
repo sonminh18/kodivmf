@@ -24,7 +24,7 @@ VietmediaF là một addon dành cho Kodi được thiết kế đặc biệt đ
 ## 🚀 Cài đặt nhanh
 
 ### Cách 1: Tải xuống trực tiếp
-1. Truy cập [trang tải xuống](https://USERNAME.github.io/REPOSITORY/)
+1. Truy cập [trang tải xuống](https://sonminh18.github.io/kodivmf/)
 2. Tải file `plugin.video.vietmediaF.zip`
 3. Cài đặt trong Kodi: **Settings > Add-ons > Install from zip file**
 
@@ -32,7 +32,7 @@ VietmediaF là một addon dành cho Kodi được thiết kế đặc biệt đ
 1. Mở Kodi và vào **File Manager**
 2. Chọn **Add source** và nhập URL:
    ```
-   https://USERNAME.github.io/REPOSITORY/
+   https://sonminh18.github.io/kodivmf/
    ```
 3. Vào **Settings > Add-ons > Install from repository**
 4. Tìm repository **VietmediaF** và cài đặt addon
@@ -102,7 +102,7 @@ Repository này sử dụng GitHub Actions để tự động:
 
 ### Fshare/4Share Account
 1. Mở addon settings
-2. Nhập username/password Fshare
+2. Nhập sonminh18/password Fshare
 3. Hoặc sử dụng QR Code để đăng nhập nhanh
 
 ### Custom Sources
@@ -113,7 +113,7 @@ Repository này sử dụng GitHub Actions để tự động:
 
 ### Repository URL Structure
 ```
-https://USERNAME.github.io/REPOSITORY/
+https://sonminh18.github.io/kodivmf/
 ├── addons.xml              # Kodi repository index
 ├── addons.xml.md5         # MD5 hash của addons.xml
 ├── plugin.video.vietmediaF.zip           # Latest version
