@@ -1,7 +1,7 @@
 # 🎬 VietmediaF Kodi Addon Repository
 
-[![Build and Deploy](https://github.com/USERNAME/REPOSITORY/actions/workflows/deploy.yml/badge.svg)](https://github.com/USERNAME/REPOSITORY/actions/workflows/deploy.yml)
-[![GitHub release](https://img.shields.io/github/release/USERNAME/REPOSITORY.svg)](https://github.com/USERNAME/REPOSITORY/releases)
+[![Build and Deploy](https://github.com/sonminh18/kodivmf/actions/workflows/deploy.yml/badge.svg)](https://github.com/sonminh18/kodivmf/actions/workflows/deploy.yml)
+[![GitHub release](https://img.shields.io/github/release/sonminh18/kodivmf.svg)](https://github.com/sonminh18/kodivmf/releases)
 [![Kodi version](https://img.shields.io/badge/kodi-21%2B-blue.svg)](https://kodi.tv/)
 
 > **VietmediaF** - Addon tổng hợp link fshare được chia sẻ trên Internet cho Kodi
@@ -74,7 +74,7 @@ Repository này sử dụng GitHub Actions để tự động:
 
 1. **Clone repository**:
    ```bash
-   git clone https://github.com/USERNAME/REPOSITORY.git
+   git clone https://github.com/sonminh18/kodivmf.git
    cd REPOSITORY
    ```
 
@@ -149,16 +149,16 @@ Chúng tôi hoan nghênh mọi đóng góp! Vui lòng:
 
 ## 📞 Hỗ trợ
 
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/USERNAME/REPOSITORY/issues)
-- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/USERNAME/REPOSITORY/discussions)
+- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/sonminh18/kodivmf/issues)
+- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/sonminh18/kodivmf/discussions)
 - 📧 **Email**: your-email@domain.com
 
 ## 📊 Thống kê
 
-![GitHub stars](https://img.shields.io/github/stars/USERNAME/REPOSITORY?style=social)
-![GitHub forks](https://img.shields.io/github/forks/USERNAME/REPOSITORY?style=social)
-![GitHub issues](https://img.shields.io/github/issues/USERNAME/REPOSITORY)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/USERNAME/REPOSITORY)
+![GitHub stars](https://img.shields.io/github/stars/sonminh18/kodivmf?style=social)
+![GitHub forks](https://img.shields.io/github/forks/sonminh18/kodivmf?style=social)
+![GitHub issues](https://img.shields.io/github/issues/sonminh18/kodivmf)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/sonminh18/kodivmf)
 
 ---
 
