@@ -96,9 +96,9 @@ jobs:
         <body>
         EOF
         
-        # Add download links for each zip file
-        echo '<a href="/plugin.video.vietmediaF-${{ steps.addon_version.outputs.version }}.zip">plugin.video.vietmediaF-${{ steps.addon_version.outputs.version }}.zip</a><br>' >> docs/index.html
-        echo '<a href="/plugin.video.vietmediaF.zip">plugin.video.vietmediaF.zip</a><br>' >> docs/index.html
+        # Add download links for each zip file (using relative paths for GitHub Pages)
+        echo '<a href="plugin.video.vietmediaF-${{ steps.addon_version.outputs.version }}.zip">plugin.video.vietmediaF-${{ steps.addon_version.outputs.version }}.zip</a><br>' >> docs/index.html
+        echo '<a href="plugin.video.vietmediaF.zip">plugin.video.vietmediaF.zip</a><br>' >> docs/index.html
         
         cat >> docs/index.html << 'EOF'
         </body>
