@@ -8,6 +8,11 @@ on:
   release:
     types: [ published ]
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -19,7 +24,11 @@ jobs:
     - name: Get addon version
       id: addon_version
       run: |
-        VERSION=$(grep -o 'version="[^"]*"' plugin.video.vietmediaF/addon.xml | cut -d'"' -f2)
+        VERSION=$(grep '<addon' plugin.video.vietmediaF/addon.xml | grep -o 'version="[^"]*"' | cut -d'"' -f2)
+        if [ -z "$VERSION" ]; then
+          echo "Error: Could not extract version from addon.xml"
+          exit 1
+        fi
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "Addon version: $VERSION"
         
@@ -204,7 +213,7 @@ jobs:
             
             <div class="footer">
                 <p>🔄 Tự động cập nhật từ GitHub Actions</p>
-                <p>📅 Cập nhật lần cuối: $(date '+%d/%m/%Y %H:%M:%S')</p>
+                <p>📅 Cập nhật lần cuối: $(date '+%d/%m/%Y %H:%M:%S UTC')</p>
             </div>
         </body>
         </html>

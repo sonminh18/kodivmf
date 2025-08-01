@@ -49,7 +49,10 @@ kodivmf/
 │   ├── default.py            # Entry point chính
 │   ├── resources/            # Modules và resources
 │   └── ...                   # Các file khác
-└── README.md                 # File này
+├── SETUP.md                  # Hướng dẫn setup chi tiết
+├── LICENSE                   # MIT license
+├── .gitignore               # Git exclusions
+└── README.md                # File này
 ```
 
 ### GitHub Actions Workflow
