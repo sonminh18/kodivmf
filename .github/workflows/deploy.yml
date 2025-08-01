@@ -16,6 +16,9 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
     - name: Checkout repository
@@ -219,19 +222,26 @@ jobs:
         </html>
         EOF
         
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      
+    - name: Upload to GitHub Pages
+      uses: actions/upload-pages-artifact@v3
       if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./docs
-        force_orphan: true
+        path: ./docs
+        
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: kodi-addon-${{ steps.addon_version.outputs.version }}
         path: |
-          plugin.video.vietmediaF*.zip
-          plugin.video.vietmediaF*.sha256
+          docs/plugin.video.vietmediaF*.zip
+          docs/plugin.video.vietmediaF*.sha256
         retention-days: 90
