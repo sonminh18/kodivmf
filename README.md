@@ -4,118 +4,118 @@
 [![GitHub release](https://img.shields.io/github/release/sonminh18/kodivmf.svg)](https://github.com/sonminh18/kodivmf/releases)
 [![Kodi version](https://img.shields.io/badge/kodi-21%2B-blue.svg)](https://kodi.tv/)
 
-> **VietmediaF** - Addon tổng hợp link fshare được chia sẻ trên Internet cho Kodi
+> **VietmediaF** - A Kodi addon that aggregates Fshare links shared on the Internet
 
-## 📖 Giới thiệu
+## 📖 About
 
-VietmediaF là một addon dành cho Kodi được thiết kế đặc biệt để tổng hợp và truy cập các nội dung media tiếng Việt từ các dịch vụ chia sẻ file như Fshare và 4share. Addon cung cấp giao diện thân thiện với người dùng Việt Nam và tích hợp nhiều nguồn nội dung phong phú.
+VietmediaF is a Kodi addon specially designed to aggregate and access Vietnamese media content from file sharing services like Fshare and 4share. The addon provides a user-friendly interface for Vietnamese users and integrates multiple rich content sources.
 
-### ✨ Tính năng chính
+### ✨ Key Features
 
-- 🔗 **Tích hợp Fshare & 4Share**: Hỗ trợ đăng nhập và truy cập tài khoản VIP
-- 🎥 **Đa nguồn nội dung**: ThuvienCine, ThuvienHD, HDVietNam và nhiều nguồn khác
-- 📱 **Đăng nhập QR Code**: Đăng nhập nhanh chóng qua mã QR
-- 📥 **Tải xuống tích hợp**: Tải file trực tiếp từ addon
-- 📺 **Hỗ trợ IPTV**: Xem các kênh truyền hình trực tuyến
-- 🔍 **Tìm kiếm thông minh**: Tìm kiếm nội dung từ nhiều nguồn
-- 📖 **Phụ đề tự động**: Tự động tải phụ đề nếu có trong thư mục
-- 🎨 **Giao diện tùy chỉnh**: Hỗ trợ skin và theme tùy chỉnh
+- 🔗 **Fshare & 4Share Integration**: Login support and VIP account access
+- 🎥 **Multiple Content Sources**: ThuvienCine, ThuvienHD, HDVietNam and many others
+- 📱 **QR Code Login**: Quick login via QR code
+- 📥 **Integrated Downloads**: Download files directly from the addon
+- 📺 **IPTV Support**: Watch live TV channels
+- 🔍 **Smart Search**: Search content from multiple sources
+- 📖 **Automatic Subtitles**: Auto-load subtitles if available in folder
+- 🎨 **Custom Interface**: Support for custom skins and themes
 
-## 🚀 Cài đặt nhanh
+## 🚀 Quick Installation
 
-### Cách 1: Tải xuống trực tiếp
-1. Truy cập [trang tải xuống](https://sonminh18.github.io/kodivmf/)
-2. Tải file `plugin.video.vietmediaF.zip`
-3. Cài đặt trong Kodi: **Settings > Add-ons > Install from zip file**
+### Method 1: Direct Download
+1. Visit the [download page](https://sonminh18.github.io/kodivmf/)
+2. Download `plugin.video.vietmediaF.zip`
+3. Install in Kodi: **Settings > Add-ons > Install from zip file**
 
-### Cách 2: Thêm Repository
-1. Mở Kodi và vào **File Manager**
-2. Chọn **Add source** và nhập URL:
+### Method 2: Add Repository
+1. Open Kodi and go to **File Manager**
+2. Select **Add source** and enter URL:
    ```
    https://sonminh18.github.io/kodivmf/
    ```
-3. Vào **Settings > Add-ons > Install from repository**
-4. Tìm repository **VietmediaF** và cài đặt addon
+3. Go to **Settings > Add-ons > Install from repository**
+4. Find **VietmediaF** repository and install the addon
 
-## 🛠️ Phát triển
+## 🛠️ Development
 
-### Cấu trúc dự án
+### Project Structure
 ```
 kodivmf/
 ├── .github/workflows/          # GitHub Actions workflows
-│   └── deploy.yml             # Build và deploy tự động
-├── plugin.video.vietmediaF/   # Mã nguồn addon chính
-│   ├── addon.xml             # Cấu hình addon
-│   ├── default.py            # Entry point chính
-│   ├── resources/            # Modules và resources
-│   └── ...                   # Các file khác
-├── SETUP.md                  # Hướng dẫn setup chi tiết
+│   └── deploy.yml             # Automated build and deploy
+├── plugin.video.vietmediaF/   # Main addon source code
+│   ├── addon.xml             # Addon configuration
+│   ├── default.py            # Main entry point
+│   ├── resources/            # Modules and resources
+│   └── ...                   # Other files
+├── SETUP.md                  # Detailed setup guide
 ├── LICENSE                   # MIT license
 ├── .gitignore               # Git exclusions
-└── README.md                # File này
+└── README.md                # This file
 ```
 
 ### GitHub Actions Workflow
 
-Repository này sử dụng GitHub Actions để tự động:
+This repository uses GitHub Actions to automatically:
 
-1. **🔍 Phát hiện phiên bản**: Tự động đọc version từ `addon.xml`
-2. **📦 Đóng gói**: Tạo file ZIP từ source code
-3. **🔐 Tạo checksum**: Sinh SHA256 hash cho bảo mật
-4. **🌐 Deploy GitHub Pages**: Tự động cập nhật trang tải xuống
-5. **📋 Tạo Kodi Repository**: Tạo cấu trúc repository chuẩn Kodi
+1. **🔍 Version Detection**: Automatically read version from `addon.xml`
+2. **📦 Packaging**: Create ZIP file from source code
+3. **🔐 Create Checksum**: Generate SHA256 hash for security
+4. **🌐 Deploy GitHub Pages**: Automatically update download page
+5. **📋 Create Kodi Repository**: Create standard Kodi repository structure
 
 #### Workflow triggers:
 - ✅ Push to `main/master` branch
 - ✅ Pull request to `main/master`
 - ✅ GitHub Releases
 
-### Cài đặt môi trường phát triển
+### Development Environment Setup
 
 1. **Clone repository**:
    ```bash
    git clone https://github.com/sonminh18/kodivmf.git
-   cd REPOSITORY
+   cd kodivmf
    ```
 
-2. **Thiết lập GitHub Pages**:
-   - Vào **Settings > Pages**
+2. **Setup GitHub Pages**:
+   - Go to **Settings > Pages**
    - Source: **GitHub Actions**
-   - Workflow sẽ tự động chạy khi push code
+   - Workflow will run automatically when pushing code
 
-3. **Cập nhật version**:
+3. **Update version**:
    ```xml
-   <!-- Trong file plugin.video.vietmediaF/addon.xml -->
+   <!-- In file plugin.video.vietmediaF/addon.xml -->
    <addon id="plugin.video.vietmediaF" name="VietmediaF" version="11.37.5">
    ```
 
-## 📋 Yêu cầu hệ thống
+## 📋 System Requirements
 
-- **Kodi**: Phiên bản 21 (Omega) trở lên
+- **Kodi**: Version 21 (Omega) or higher
 - **Python**: 3.0+
 - **Dependencies**: 
   - `script.module.six`
   - `script.module.requests`
   - `script.module.beautifulsoup4`
 
-## 🔧 Cấu hình
+## 🔧 Configuration
 
 ### Fshare/4Share Account
-1. Mở addon settings
-2. Nhập sonminh18/password Fshare
-3. Hoặc sử dụng QR Code để đăng nhập nhanh
+1. Open addon settings
+2. Enter Fshare username/password
+3. Or use QR Code for quick login
 
 ### Custom Sources
-- Addon hỗ trợ thêm nguồn nội dung tùy chỉnh
-- Cấu hình trong **Advanced Settings**
+- Addon supports adding custom content sources
+- Configure in **Advanced Settings**
 
-## 📚 Tài liệu API
+## 📚 API Documentation
 
 ### Repository URL Structure
 ```
 https://sonminh18.github.io/kodivmf/
 ├── addons.xml              # Kodi repository index
-├── addons.xml.md5         # MD5 hash của addons.xml
+├── addons.xml.md5         # MD5 hash of addons.xml
 ├── plugin.video.vietmediaF.zip           # Latest version
 ├── plugin.video.vietmediaF-VERSION.zip   # Specific version
 └── plugin.video.vietmediaF/
@@ -126,34 +126,34 @@ https://sonminh18.github.io/kodivmf/
 
 ## 📄 License
 
-Dự án này được phát hành dưới MIT License. Xem file [LICENSE](LICENSE) để biết thêm chi tiết.
+This project is released under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
 ## ⚠️ Disclaimer
 
-Addon này chỉ tổng hợp các link được chia sẻ công khai trên Internet. Tác giả không chịu trách nhiệm về:
-- Tính hợp pháp của nội dung
-- Bản quyền của nội dung được chia sẻ
-- Chất lượng hoặc tính chính xác của nội dung
+This addon only aggregates links shared publicly on the Internet. The author is not responsible for:
+- Legality of content
+- Copyright of shared content
+- Quality or accuracy of content
 
-Người dùng có trách nhiệm tuân thủ luật pháp và bản quyền tại quốc gia của mình.
+Users are responsible for complying with copyright laws and regulations in their country.
 
-## 🤝 Đóng góp
+## 🤝 Contributing
 
-Chúng tôi hoan nghênh mọi đóng góp! Vui lòng:
+We welcome all contributions! Please:
 
-1. Fork repository
-2. Tạo feature branch: `git checkout -b feature/AmazingFeature`
+1. Fork the repository
+2. Create feature branch: `git checkout -b feature/AmazingFeature`
 3. Commit changes: `git commit -m 'Add AmazingFeature'`
 4. Push to branch: `git push origin feature/AmazingFeature`
-5. Tạo Pull Request
+5. Create Pull Request
 
-## 📞 Hỗ trợ
+## 📞 Support
 
 - 🐛 **Bug Reports**: [GitHub Issues](https://github.com/sonminh18/kodivmf/issues)
 - 💡 **Feature Requests**: [GitHub Discussions](https://github.com/sonminh18/kodivmf/discussions)
 - 📧 **Email**: your-email@domain.com
 
-## 📊 Thống kê
+## 📊 Statistics
 
 ![GitHub stars](https://img.shields.io/github/stars/sonminh18/kodivmf?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/sonminh18/kodivmf?style=social)
@@ -163,6 +163,6 @@ Chúng tôi hoan nghênh mọi đóng góp! Vui lòng:
 ---
 
 <div align="center">
-  <p>🎬 <strong>Hãy thưởng thức những bộ phim yêu thích của bạn!</strong> 🍿</p>
-  <p>Được xây dựng với ❤️ cho cộng đồng Kodi Việt Nam</p>
+  <p>🎬 <strong>Enjoy your favorite movies!</strong> 🍿</p>
+  <p>Built with ❤️ for the Vietnamese Kodi community</p>
 </div>

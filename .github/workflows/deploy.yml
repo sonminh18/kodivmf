@@ -89,135 +89,18 @@ jobs:
       run: |
         cat > docs/index.html << 'EOF'
         <!DOCTYPE html>
-        <html lang="vi">
+        <html>
         <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>VietmediaF Kodi Addon Repository</title>
-            <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    max-width: 800px;
-                    margin: 0 auto;
-                    padding: 20px;
-                    background-color: #f5f5f5;
-                }
-                .header {
-                    text-align: center;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                    color: white;
-                    padding: 30px;
-                    border-radius: 10px;
-                    margin-bottom: 30px;
-                }
-                .addon-card {
-                    background: white;
-                    padding: 25px;
-                    border-radius: 10px;
-                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-                    margin-bottom: 20px;
-                }
-                .download-btn {
-                    display: inline-block;
-                    background: #4CAF50;
-                    color: white;
-                    padding: 12px 24px;
-                    text-decoration: none;
-                    border-radius: 5px;
-                    margin: 5px;
-                    transition: background 0.3s;
-                }
-                .download-btn:hover {
-                    background: #45a049;
-                }
-                .version-btn {
-                    background: #2196F3;
-                }
-                .version-btn:hover {
-                    background: #1976D2;
-                }
-                .install-guide {
-                    background: #fff3cd;
-                    border: 1px solid #ffeaa7;
-                    padding: 15px;
-                    border-radius: 5px;
-                    margin-top: 20px;
-                }
-                .footer {
-                    text-align: center;
-                    margin-top: 30px;
-                    padding: 20px;
-                    color: #666;
-                }
-                .repo-url {
-                    background: #e9ecef;
-                    padding: 10px;
-                    border-radius: 5px;
-                    font-family: monospace;
-                    margin: 10px 0;
-                }
-            </style>
+            <title>VietmediaF Kodi Repository</title>
         </head>
         <body>
-            <div class="header">
-                <h1>🎬 VietmediaF Kodi Addon</h1>
-                <p>Addon tổng hợp link fshare được chia sẻ trên Internet</p>
-                <p>Version: <strong>${{ steps.addon_version.outputs.version }}</strong></p>
-            </div>
-            
-            <div class="addon-card">
-                <h2>📥 Tải xuống</h2>
-                <p>Chọn một trong các tùy chọn tải xuống bên dưới:</p>
-                
-                <a href="plugin.video.vietmediaF.zip" class="download-btn">
-                    📦 Tải xuống phiên bản mới nhất
-                </a>
-                
-                <a href="plugin.video.vietmediaF-${{ steps.addon_version.outputs.version }}.zip" class="download-btn version-btn">
-                    🏷️ Tải xuống v${{ steps.addon_version.outputs.version }}
-                </a>
-                
-                <div class="install-guide">
-                    <h3>📖 Hướng dẫn cài đặt</h3>
-                    <ol>
-                        <li>Tải xuống file ZIP của addon</li>
-                        <li>Mở Kodi và vào <strong>Settings > Add-ons</strong></li>
-                        <li>Chọn <strong>Install from zip file</strong></li>
-                        <li>Duyệt và chọn file ZIP đã tải xuống</li>
-                        <li>Chờ thông báo cài đặt thành công</li>
-                        <li>Addon sẽ xuất hiện trong <strong>Video Add-ons</strong></li>
-                    </ol>
-                </div>
-                
-                <div class="install-guide">
-                    <h3>🔗 Cài đặt qua Repository URL</h3>
-                    <p>Thêm repository này vào Kodi để nhận cập nhật tự động:</p>
-                    <div class="repo-url">https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/</div>
-                </div>
-            </div>
-            
-            <div class="addon-card">
-                <h2>ℹ️ Thông tin Addon</h2>
-                <ul>
-                    <li><strong>Tên:</strong> VietmediaF</li>
-                    <li><strong>Phiên bản:</strong> ${{ steps.addon_version.outputs.version }}</li>
-                    <li><strong>Tương thích:</strong> Kodi 21+</li>
-                    <li><strong>Ngôn ngữ:</strong> Tiếng Việt</li>
-                    <li><strong>Mô tả:</strong> Addon tổng hợp link fshare được chia sẻ trên Internet</li>
-                </ul>
-            </div>
-            
-            <div class="addon-card">
-                <h2>⚠️ Lưu ý quan trọng</h2>
-                <p>Addon này chỉ tổng hợp các link được chia sẻ công khai trên Internet. 
-                Người dùng cần có tài khoản VIP của Fshare hoặc 4share để sử dụng.</p>
-                <p>Tác giả không chịu trách nhiệm về nội dung được hiển thị trong addon.</p>
-            </div>
-            
-            <div class="footer">
-                <p>🔄 Tự động cập nhật từ GitHub Actions</p>
-                <p>📅 Cập nhật lần cuối: $(date '+%d/%m/%Y %H:%M:%S UTC')</p>
-            </div>
+        EOF
+        
+        # Add download links for each zip file
+        echo '<a href="/plugin.video.vietmediaF-${{ steps.addon_version.outputs.version }}.zip">plugin.video.vietmediaF-${{ steps.addon_version.outputs.version }}.zip</a><br>' >> docs/index.html
+        echo '<a href="/plugin.video.vietmediaF.zip">plugin.video.vietmediaF.zip</a><br>' >> docs/index.html
+        
+        cat >> docs/index.html << 'EOF'
         </body>
         </html>
         EOF
