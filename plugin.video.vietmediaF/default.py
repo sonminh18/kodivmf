@@ -1520,29 +1520,109 @@ def parse_menu_data(data):
     return items
 
 def getMenu():
-
+    """Load menu with optimized caching and timeout for better performance"""
+    from resources.utils import should_skip_network_call, record_network_failure, record_network_success
+    
     url = 'https://docs.google.com/spreadsheets/d/1aH1WIITSsVKDSCgbKKvRCTPccfkOEkpWuYAcEEVlyjI/gviz/tq?gid=0&headers=1'
-    response = urlquick.get(url, max_age=60 * 60)
-    data = response.text
-    items = parse_menu_data(data)
-    return {"content_type": "", "items": items}
+    url_key = "main_menu"
+    
+    # Circuit breaker: skip if recent failures
+    if should_skip_network_call(url_key, failure_threshold=2, timeout_minutes=2):
+        xbmc.log("[VietmediaF] Skipping menu load due to recent failures (circuit breaker)", xbmc.LOGINFO)
+        return get_fallback_menu()
+    
+    try:
+        # Extended cache (24 hours) and aggressive timeout (3 seconds) for faster startup
+        response = urlquick.get(url, max_age=24 * 60 * 60, timeout=5)
+        data = response.text
+        items = parse_menu_data(data)
+        record_network_success(url_key)
+        return {"content_type": "", "items": items}
+    except Exception as e:
+        xbmc.log(f"[VietmediaF] Menu loading failed, using fallback: {str(e)}", xbmc.LOGWARNING)
+        record_network_failure(url_key)
+        # Return fallback static menu if network fails
+        return get_fallback_menu()
 
+def get_fallback_menu():
+    """Fallback static menu when network loading fails"""
+    return {
+        "content_type": "",
+        "items": [
+            {
+                "label": "🔍 Tìm kiếm",
+                "path": f"plugin://plugin.video.vietmediaF?action=search",
+                "thumbnail": icon,
+                "icon": icon,
+                "is_playable": False,
+                "info": {"plot": "Tìm kiếm nội dung"}
+            },
+            {
+                "label": "📁 Fshare",
+                "path": f"plugin://plugin.video.vietmediaF?action=fshare_menu",
+                "thumbnail": icon,
+                "icon": icon,
+                "is_playable": False,
+                "info": {"plot": "Truy cập Fshare"}
+            },
+            {
+                "label": "⚙️ Cài đặt",
+                "path": f"plugin://plugin.video.vietmediaF?action=settings",
+                "thumbnail": icon,
+                "icon": icon,
+                "is_playable": False,
+                "info": {"plot": "Cài đặt addon"}
+            }
+        ]
+    }
 
 def getFshareMenu():
-    max_age = 60 * 60
-    max_retry = 3
-    retry_count = 0
+    """Load Fshare menu with optimized performance settings"""
+    from resources.utils import should_skip_network_call, record_network_failure, record_network_success
+    
+    url = 'https://docs.google.com/spreadsheets/d/1utbPZh4jNvm1U2xdrnWJpnq6RRZAnGNlmaNRCnjwKus/gviz/tq?gid=173971263&headers=1'
+    url_key = "fshare_menu"
+    
+    # Circuit breaker: skip if recent failures
+    if should_skip_network_call(url_key, failure_threshold=2, timeout_minutes=2):
+        xbmc.log("[VietmediaF] Skipping Fshare menu load due to recent failures (circuit breaker)", xbmc.LOGINFO)
+        return get_fallback_fshare_menu()
+    
+    try:
+        # Reduced retries, longer cache, shorter timeout for better performance
+        response = urlquick.get(url, max_age=12 * 60 * 60, timeout=3)  # 12 hour cache, 3s timeout
+        data = response.text
+        items = parse_menu_data(data)
+        record_network_success(url_key)
+        return {"content_type": "episodes", "items": items}
+    except Exception as e:
+        xbmc.log(f"[VietmediaF] Error loading Fshare menu: {str(e)}", xbmc.LOGERROR)
+        record_network_failure(url_key)
+        return get_fallback_fshare_menu()
 
-    while retry_count < max_retry:
-        try:
-            response = urlquick.get('https://docs.google.com/spreadsheets/d/1utbPZh4jNvm1U2xdrnWJpnq6RRZAnGNlmaNRCnjwKus/gviz/tq?gid=173971263&headers=1', max_age=max_age)
-            data = response.text
-            items = parse_menu_data(data)
-            return {"content_type": "episodes", "items": items}
-        except Exception as e:
-            retry_count += 1
-            notify("GoogleSheet Error:", e)
-            time.sleep(5)
+def get_fallback_fshare_menu():
+    """Fallback Fshare menu when network loading fails"""
+    return {
+        "content_type": "episodes",
+        "items": [
+            {
+                "label": "🏠 Home Fshare",
+                "path": f"plugin://plugin.video.vietmediaF?action=home_fshare",
+                "thumbnail": icon,
+                "icon": icon,
+                "is_playable": False,
+                "info": {"plot": "Truy cập thư mục Home Fshare"}
+            },
+            {
+                "label": "🔍 Tìm Fshare",
+                "path": f"plugin://plugin.video.vietmediaF?action=search_fshare",
+                "thumbnail": icon,
+                "icon": icon,
+                "is_playable": False,
+                "info": {"plot": "Tìm kiếm file Fshare"}
+            }
+        ]
+    }
 
 
 
@@ -2540,8 +2620,47 @@ def go():
 
 
 
+def should_run_background_cache_cleanup():
+    """Check if background cache cleanup should run (less frequent than before)"""
+    try:
+        last_cleanup = ADDON.getSetting('last_background_cleanup')
+        if not last_cleanup:
+            return True
+        
+        import datetime
+        last_time = datetime.datetime.strptime(last_cleanup, '%Y-%m-%d')
+        now = datetime.datetime.now()
+        # Only run once per day instead of every startup
+        return (now - last_time).days >= 1
+    except:
+        return True
+
+def background_cache_cleanup():
+    """Run cache cleanup in background thread"""
+    try:
+        import time
+        # Small delay to ensure main UI loads first
+        time.sleep(2)
+        
+        from resources.cache_manager import check_and_clear_cache
+        check_and_clear_cache()
+        
+        # Update last cleanup time
+        import datetime
+        ADDON.setSetting('last_background_cleanup', datetime.datetime.now().strftime('%Y-%m-%d'))
+        
+        xbmc.log("[VietmediaF] Background cache cleanup completed", xbmc.LOGINFO)
+    except Exception as e:
+        xbmc.log(f"[VietmediaF] Background cache cleanup error: {str(e)}", xbmc.LOGERROR)
+
 def main():
-    check_and_clear_cache()
+    # Moved cache operations to background to improve startup time
+    # check_and_clear_cache()  # Now runs in background thread
+    
+    # Start background cache cleanup if needed
+    import threading
+    if should_run_background_cache_cleanup():
+        threading.Thread(target=background_cache_cleanup, daemon=True).start()
 
     args = urllib.parse.parse_qs(sys.argv[2][1:])
     action = args.get('action', None)

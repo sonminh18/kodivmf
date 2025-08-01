@@ -36,17 +36,17 @@ PRELOAD_URLS = [
 # Thời gian cache hợp lệ (3 giờ)
 CACHE_VALID_TIME = 3 * 60 * 60
 
-# Số lần thử lại tối đa khi gặp lỗi
-MAX_RETRIES = 3
+# Số lần thử lại tối đa khi gặp lỗi (reduced for performance)
+MAX_RETRIES = 1  # Reduced from 3 to 1
 
-# Thời gian chờ giữa các lần thử lại (giây)
-RETRY_DELAY = 5
+# Thời gian chờ giữa các lần thử lại (giây) (reduced for performance)
+RETRY_DELAY = 1  # Reduced from 5 to 1
 
-# Số lượng thread tối đa cho việc tải hình ảnh
-MAX_IMAGE_THREADS = 2
+# Số lượng thread tối đa cho việc tải hình ảnh (reduced for performance)
+MAX_IMAGE_THREADS = 1  # Reduced from 2 to 1
 
-# Thời gian chờ giữa các request hình ảnh (giây)
-IMAGE_REQUEST_DELAY = 0.5
+# Thời gian chờ giữa các request hình ảnh (giây) (increased to be less aggressive)
+IMAGE_REQUEST_DELAY = 1.0  # Increased from 0.5 to 1.0
 
 def log(message, level=xbmc.LOGINFO):
     """Ghi log với prefix để dễ dàng lọc"""
@@ -126,6 +126,11 @@ class PreloadManager:
     def _preload_worker(self):
         """Worker chính cho quá trình preload"""
         log("Starting preload worker")
+        
+        # Add delay to avoid competing with main startup (improved performance)
+        import time
+        time.sleep(5)  # Wait 5 seconds before starting preload to let main UI load first
+        log("Preload delay completed, starting actual preload")
 
         for url_info in self.preload_urls:
             if self.stop_event.is_set():

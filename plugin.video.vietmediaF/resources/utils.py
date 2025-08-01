@@ -11,6 +11,86 @@ import requests
 import zipfile
 from resources.addon import notify, PROFILE_PATH, LOCK_PIN, alert, ADDON_ID
 from resources.lib.constants import CACHE_PATH
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+
+# Shared HTTP session for better performance and resource usage
+_shared_session = None
+
+def get_shared_session():
+    """Get or create shared HTTP session with optimized settings"""
+    global _shared_session
+    if _shared_session is None:
+        _shared_session = requests.Session()
+        
+        # Optimized retry strategy for better performance
+        retry_strategy = Retry(
+            total=1,  # Only 1 retry for faster failure recovery
+            backoff_factor=0.1,  # Quick backoff
+            status_forcelist=[429, 500, 502, 503, 504],
+            allowed_methods=["GET", "POST", "HEAD"]
+        )
+        
+        adapter = HTTPAdapter(
+            max_retries=retry_strategy,
+            pool_connections=5,  # Connection pooling
+            pool_maxsize=10
+        )
+        
+        _shared_session.mount("http://", adapter)
+        _shared_session.mount("https://", adapter)
+        
+        # Optimized headers
+        _shared_session.headers.update({
+            "User-Agent": "kodivietmediaf-K58W6U",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.5",
+            "Connection": "keep-alive",
+            "Accept-Encoding": "gzip, deflate"
+        })
+        
+        xbmc.log("[VietmediaF] Created shared HTTP session", xbmc.LOGINFO)
+    
+    return _shared_session
+
+# Circuit breaker pattern for network operations
+_circuit_breaker_state = {}
+
+def should_skip_network_call(url_key, failure_threshold=3, timeout_minutes=5):
+    """Check if network call should be skipped due to recent failures (circuit breaker pattern)"""
+    import time
+    current_time = time.time()
+    
+    if url_key not in _circuit_breaker_state:
+        _circuit_breaker_state[url_key] = {"failures": 0, "last_failure": 0}
+        return False
+    
+    state = _circuit_breaker_state[url_key]
+    
+    # Reset if timeout period has passed
+    if current_time - state["last_failure"] > timeout_minutes * 60:
+        state["failures"] = 0
+        return False
+    
+    # Skip if too many recent failures
+    return state["failures"] >= failure_threshold
+
+def record_network_failure(url_key):
+    """Record a network failure for circuit breaker"""
+    import time
+    if url_key not in _circuit_breaker_state:
+        _circuit_breaker_state[url_key] = {"failures": 0, "last_failure": 0}
+    
+    _circuit_breaker_state[url_key]["failures"] += 1
+    _circuit_breaker_state[url_key]["last_failure"] = time.time()
+    
+    xbmc.log(f"[VietmediaF] Circuit breaker: recorded failure for {url_key} (count: {_circuit_breaker_state[url_key]['failures']})", xbmc.LOGDEBUG)
+
+def record_network_success(url_key):
+    """Record a network success for circuit breaker"""
+    if url_key in _circuit_breaker_state:
+        _circuit_breaker_state[url_key]["failures"] = 0
+        xbmc.log(f"[VietmediaF] Circuit breaker: reset failures for {url_key}", xbmc.LOGDEBUG)
 
 ADDON_PATH = 'special://home/addons/plugin.video.vietmediaF'
 # Sử dụng ảnh từ thư mục mới resources/images/tienich/

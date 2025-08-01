@@ -34,8 +34,8 @@ def create_session():
 
 
     retry_strategy = Retry(
-        total=3,
-        backoff_factor=0.5,
+        total=1,  # Reduced from 3 to 1 for faster startup
+        backoff_factor=0.1,  # Reduced from 0.5 to 0.1
         status_forcelist=[429, 500, 502, 503, 504],
         allowed_methods=["GET", "POST"]
     )
@@ -257,8 +257,8 @@ def get_download_link(token=None, session_id=None, link=None, max_reset_attempts
     pDialog.close()
     return retrieve_download_link()
 
-def api_request(url, headers=None, method="GET", data=None, timeout=30):
-    """Gọi API với xử lý lỗi"""
+def api_request(url, headers=None, method="GET", data=None, timeout=5):
+    """Gọi API với xử lý lỗi (optimized timeout)"""
     try:
         if method.upper() == "GET":
             response = requests.get(url, headers=headers, timeout=timeout, verify=False)

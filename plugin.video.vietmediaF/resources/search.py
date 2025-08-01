@@ -40,7 +40,7 @@ def searchvmf(query):
     url = "https://fshare.vip/s.php?keyword=" + query
 
     try:
-        r = urlquick.get(url, headers=headers, max_age = 60*60, timeout=20)
+        r = urlquick.get(url, headers=headers, max_age = 60*60, timeout=5)  # Reduced from 20s to 3s
 
         if r.status_code == 200:
             try:
@@ -205,7 +205,7 @@ def searchtvhd(query):
     headers = {'User-agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36','Referers': 'http://www.google.com'}
     progress_dialog = xbmcgui.DialogProgress()
     progress_dialog.create('Tìm kiếm...', 'Vui lòng đợi')
-    r = urlquick.get(url, headers=headers,max_age=60*60)
+    r = urlquick.get(url, headers=headers, max_age=60*60, timeout=5)  # Added 3s timeout
 
     data = json.loads(r.content)
     i = 0
@@ -315,7 +315,7 @@ def top100search():
 def searchFourshare(query,page):
     fourshare_search_api = "https://api.4share.vn/api/v1/?cmd=search_file_name&search_string="+query+"&ext=ts,mkv,iso,mp4,m2ts,avi,wmv,flv,mpeg,asf,flv,mka,m4a,aac&exactly=on"+"&page=" + str(page)
 
-    r = urlquick.get(fourshare_search_api)
+    r = urlquick.get(fourshare_search_api, timeout=5)  # Added 3s timeout
     jdata = json.loads(r.content)
     items = []
     for i in jdata["payload"]["links"]:

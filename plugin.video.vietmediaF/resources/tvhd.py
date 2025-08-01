@@ -29,8 +29,8 @@ def create_session():
 
 
     retry_strategy = Retry(
-        total=3,
-        backoff_factor=0.5,
+        total=1,  # Reduced from 3 to 1 for faster startup
+        backoff_factor=0.1,  # Reduced from 0.5 to 0.1
         status_forcelist=[429, 500, 502, 503, 504],
         allowed_methods=["GET", "POST", "HEAD"]
     )
